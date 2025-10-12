@@ -47,14 +47,14 @@ body {
   text-align: center;
 }
 
-/* 5. News-Bereich wächst und zentriert seinen Inhalt */
+/* 5. News-Bereich wächst und zentriert seinen Inhalt 
 .news-container {
   flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 1rem 0;
-}
+}*/
 
 /* Pfeil-Buttons */
 .arrow {
@@ -94,7 +94,7 @@ body {
   text-decoration: underline;
 }
 
-/* 6. Content-Wrapper für Unterseiten: zwischen Überschrift und Nav */
+/* 6. Content-Wrapper für Unterseiten: zwischen Überschrift und Nav 
 .content {
   flex: 1 1 auto;
   display: flex;
@@ -102,7 +102,19 @@ body {
   justify-content: center;
   padding: 1rem;
   text-align: left;
+}*/
+/* Content- & News-Wrapper: füllt den Raum, zentriert & mit Margin */
+.content,
+.news-container {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: left;
+  margin: 1rem 0;        /* sorgt für gleiches Verhalten */
 }
+
 
 /* 7. Navigation immer unten */
 nav {
