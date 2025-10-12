@@ -1,6 +1,10 @@
 /* style.css */
 
 /* 1. Reset */
+:root {
+  /* bleibt bei 10vh, du kannst hier auch px oder rem verwenden */
+  --topbar-height: 10vh;
+}
 * {
   margin: 0;
   padding: 0;
@@ -25,7 +29,7 @@ body {
   color: #fff;
 
   /* Platz für Top-Bar (10vh) und Footer (~2.5rem) */
-  padding-top: 10vh;
+  padding-top: var(--topbar-height); /*padding-top: 10vh;*/
   padding-bottom: 2.5rem;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -69,6 +73,7 @@ header.top-bar .site-title {
 
 /* 6. Glass-Container als Drei-Zeilen-Grid */
 .glass-container {
+  margin-top: var(--topbar-height);
   display: grid;
   grid-template-rows: var(--header-h) 1fr var(--nav-h);
   gap: 1rem;
@@ -183,8 +188,9 @@ nav a:hover {
   /* Body: kompaktere Polsterung */
   body {
     /* statt nur „1rem 1rem 2.5rem“: */
-    padding: 10vh 1rem 2.5rem;
-    overflow-x: hidden;
+    /*padding: 10vh 1rem 2.5rem;
+    overflow-x: hidden;*/
+    padding: var(--topbar-height) 1rem 2.5rem;
   }
 
   /* Glass-Container: volle Breite minus Body-Padding, kompakter */
