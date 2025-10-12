@@ -141,12 +141,16 @@ nav a:hover {
 @media (max-width: 600px) {
   body {
     padding: 1rem;
+    /* Optional: verhindert evtl. Rest-Overflow */
+    overflow-x: hidden;
   }
 
   .glass-container {
     padding: 1.5rem;
     border-radius: 15px;
-    width: 100vw;
+
+    /* statt 100vw nehmen wir 100% (Box-Sizing ist global border-box) */
+    width: 100%;
     max-width: none;
     height: 85vh;
   }
@@ -160,9 +164,23 @@ nav a:hover {
     font-size: 1rem;
   }
 
+  /* NAV anpassen, damit Buttons umbrechen statt scrollen */
+  nav {
+    flex-wrap: wrap;
+  }
   nav a {
+    /* für gleichmäßige Breite und zentrierten Text */
+    flex: 1 1 auto;
+    text-align: center;
     font-size: 1rem;
     padding: 0.5rem 1rem;
+  }
+
+  /* Falls dein Content-Text mal zu lang ist */
+  .content,
+  .news-container {
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   textarea,
