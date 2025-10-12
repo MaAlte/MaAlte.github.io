@@ -24,10 +24,16 @@ body {
   color: #fff;
 }
 
-/* 3. Glass-Container als Flex-Column, 80% der Viewport-Höhe */
+/* 3. Glass-Container als CSS Grid */
+:root {
+  --header-h: 4rem;
+  --nav-h:    3.5rem;
+}
+
 .glass-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;  
+  grid-template-rows: var(--header-h) 1fr var(--nav-h);
+  gap: 1rem;                      /* optionaler Abstand zwischen den Bereichen */
   height: 80vh;
   max-width: 600px;
   width: 100%;
@@ -42,21 +48,27 @@ body {
 
 /* 4. Überschrift immer oben */
 .glass-container > h1 {
-  flex: 0 0 auto;
-  margin-bottom: 1rem;
+  margin: 0;                     
   text-align: center;
+  line-height: var(--header-h);
+  font-size: 1.5rem;
 }
 
-/* 5. News-Bereich wächst und zentriert seinen Inhalt 
+/* 5. News- und Content-Wrapper identisch behandeln */
+.content,
 .news-container {
-  flex: 1 1 auto;
+  overflow-y: auto;              /* bei viel Inhalt scrollbar */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1rem 0;
-}*/
+  padding: 1rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  margin: 0;                      /* Abstand durch Grid gap */
+}
 
-/* Pfeil-Buttons */
+/* Pfeil-Buttons (nur für news-container) */
 .arrow {
   cursor: pointer;
   font-size: 1.5rem;
@@ -73,10 +85,6 @@ body {
 /* News-Content mit Fade-Effekt */
 .news-content {
   flex: 1;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 1rem;
-  border-radius: 10px;
-  text-align: left;
   transition: opacity 0.5s ease;
   opacity: 1;
 }
@@ -94,35 +102,11 @@ body {
   text-decoration: underline;
 }
 
-/* 6. Content-Wrapper für Unterseiten: zwischen Überschrift und Nav 
-.content {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  text-align: left;
-}*/
-/* Content- & News-Wrapper: füllt den Raum, zentriert & mit Margin */
-.content,
-.news-container {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  text-align: left;
-  margin: 1rem 0;        /* sorgt für gleiches Verhalten */
-}
-
-
-/* 7. Navigation immer unten */
+/* 6. Navigation immer unten */
 nav {
-  flex: 0 0 auto;
-  margin-top: auto;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -140,7 +124,7 @@ nav a:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* 8. Orientation-Based Scaling für Hintergrundbild */
+/* 7. Orientation-Based Scaling für Hintergrundbild */
 @media (orientation: portrait) {
   body {
     background-size: auto 100%;
@@ -153,7 +137,7 @@ nav a:hover {
   }
 }
 
-/* 9. Mobile-Optimierungen */
+/* 8. Mobile-Optimierungen */
 @media (max-width: 600px) {
   body {
     padding: 1rem;
@@ -162,14 +146,14 @@ nav a:hover {
   .glass-container {
     padding: 1.5rem;
     border-radius: 15px;
-    width: 100vw;       /* volle Breite auf mobilen Geräten */
+    width: 100vw;
     max-width: none;
     height: 85vh;
   }
 
   h1 {
     font-size: 1.6rem;
-    margin-bottom: 1rem;
+    line-height: var(--header-h);
   }
 
   .news-content {
