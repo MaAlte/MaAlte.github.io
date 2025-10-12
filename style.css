@@ -94,7 +94,17 @@ body {
   text-decoration: underline;
 }
 
-/* 6. Navigation immer unten */
+/* 6. Content-Wrapper für Unterseiten: zwischen Überschrift und Nav */
+.content {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: left;
+}
+
+/* 7. Navigation immer unten */
 nav {
   flex: 0 0 auto;
   margin-top: auto;
@@ -111,14 +121,14 @@ nav a {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
   transition: background 0.3s ease;
-  font-size: clamp(1rem, 2vw, 1.1rem); /* NEU: skalierbare Schriftgröße */
+  font-size: clamp(1rem, 2vw, 1.1rem);
 }
 
 nav a:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* 7. Orientation-Based Scaling für Hintergrundbild */
+/* 8. Orientation-Based Scaling für Hintergrundbild */
 @media (orientation: portrait) {
   body {
     background-size: auto 100%;
@@ -131,7 +141,7 @@ nav a:hover {
   }
 }
 
-/* 8. Mobile-Optimierungen */
+/* 9. Mobile-Optimierungen */
 @media (max-width: 600px) {
   body {
     padding: 1rem;
@@ -140,13 +150,13 @@ nav a:hover {
   .glass-container {
     padding: 1.5rem;
     border-radius: 15px;
-    width: 100vw;       /* NEU: volle Breite auf mobilen Geräten */
-    max-width: none;    /* Begrenzung aufheben */
-    height: 85vh;       /* optional etwas mehr Höhe */
+    width: 100vw;       /* volle Breite auf mobilen Geräten */
+    max-width: none;
+    height: 85vh;
   }
 
   h1 {
-    font-size: 1.6rem;  /* leicht vergrößert */
+    font-size: 1.6rem;
     margin-bottom: 1rem;
   }
 
@@ -155,7 +165,7 @@ nav a:hover {
   }
 
   nav a {
-    font-size: 1rem;    /* NEU: lesbare Schriftgröße mobil */
+    font-size: 1rem;
     padding: 0.5rem 1rem;
   }
 
