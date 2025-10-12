@@ -2,18 +2,24 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Willkommen</title>
+
+  <!-- Favicon & Icons -->
   <link rel="icon" href="/BTClackholefavicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="/BTClackholefavicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#1c1c1c">
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="glass-container">
     <h1>Willkommen auf meiner Seite</h1>
 
-    <!-- START dynamische News-Sektion -->
+    <!-- Dynamische News-Sektion -->
     <div class="news-container">
       <div class="arrow" id="prev-news">&#10094;</div>
       <div class="news-content" id="news-content">
@@ -21,8 +27,8 @@
       </div>
       <div class="arrow" id="next-news">&#10095;</div>
     </div>
-    <!-- END dynamische News-Sektion -->
 
+    <!-- Navigation -->
     <nav>
       <a href="index.html">Home</a>
       <a href="services.html">Services</a>
@@ -32,37 +38,67 @@
   </div>
 
   <script>
-    // 1. Deine News-Liste – hier kannst du einfach neue Einträge hinzufügen
+    // 1. News-Liste – hier lässt sich einfach erweitern
     const newsList = [
       { text: "Projekt gestartet – mehr Inhalte folgen bald!", link: "#" },
       { text: "BTC-Watcher jetzt mit Alias-Funktion", link: "https://example.com/alias" },
       { text: "Telegram-Benachrichtigungen live", link: "https://example.com/telegram" }
     ];
 
-    // 2. Aktuellen Index und DOM-Elemente holen
     let current = 0;
-    const contentEl = document.getElementById("news-content");
-    const prevBtn   = document.getElementById("prev-news");
-    const nextBtn   = document.getElementById("next-news");
+    const contentEl    = document.getElementById("news-content");
+    const prevBtn      = document.getElementById("prev-news");
+    const nextBtn      = document.getElementById("next-news");
+    const cycleInterval = 5000; // ms bis zum automatischen Wechsel
+    let autoPlay;
 
-    // 3. News rendern
+    // 2. News rendern mit Fade-Effekt
     function renderNews() {
-      const item = newsList[current];
-      contentEl.innerHTML = `<a href="${item.link}" target="_blank">${item.text}</a>`;
+      contentEl.classList.add("fade-out");
+      setTimeout(() => {
+        const item = newsList[current];
+        contentEl.innerHTML = `<a href="${item.link}" target="_blank">${item.text}</a>`;
+        contentEl.classList.remove("fade-out");
+      }, 500);
     }
 
-    // 4. Event-Listener für Pfeile
+    // 3. Pfeil-Events
     prevBtn.addEventListener("click", () => {
       current = (current - 1 + newsList.length) % newsList.length;
       renderNews();
+      resetAutoPlay();
     });
+
     nextBtn.addEventListener("click", () => {
       current = (current + 1) % newsList.length;
       renderNews();
+      resetAutoPlay();
     });
 
-    // 5. Initiales Rendering beim Laden
-    renderNews();
+    // 4. Autoplay steuern
+    function startAutoPlay() {
+      autoPlay = setInterval(() => {
+        current = (current + 1) % newsList.length;
+        renderNews();
+      }, cycleInterval);
+    }
+
+    function resetAutoPlay() {
+      clearInterval(autoPlay);
+      startAutoPlay();
+    }
+
+    // 5. Autoplay pausieren bei Hover
+    const newsContainer = document.querySelector(".news-container");
+    newsContainer.addEventListener("mouseenter", () => clearInterval(autoPlay));
+    newsContainer.addEventListener("mouseleave", () => startAutoPlay());
+
+    // 6. Initialisierung nach DOM-Load
+    window.addEventListener("DOMContentLoaded", () => {
+      renderNews();
+      startAutoPlay();
+    });
   </script>
 </body>
 </html>
+```
