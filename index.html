@@ -12,6 +12,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Top-Bar mit Logo und Site-Title -->
+  <header class="top-bar">
+    <img src="img/BlackHoleBTC-DOLLAR.jpg" alt="Logo" class="logo">
+    <div class="site-title">MaAlte81</div>
+  </header>
+
+
+  <!-- Glass-Container als Drei-Zeilen-Grid -->
   <div class="glass-container">
     <h1>Willkommen auf meiner Seite :-) </h1>
 
@@ -32,6 +40,15 @@
       <a href="impressum.html">Impressum</a>
     </nav>
   </div>
+
+  <!-- Footer mit Last-Modified-Anzeige -->
+  <footer id="last-modified"></footer>
+
+  <script>
+    // Letzte Änderung in den Footer schreiben
+    document.getElementById('last-modified').textContent =
+      'Letzte Änderung: ' + document.lastModified;
+  </script>
 
   <script>
     // 1. News-Liste – hier lässt sich einfach erweitern
@@ -98,4 +115,3 @@
   </script>
 </body>
 </html>
-```
