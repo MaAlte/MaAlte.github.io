@@ -20,9 +20,9 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block; /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
   color: #fff;
 }
 
@@ -47,6 +47,7 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  margin: 0 auto;
 }
 
 /* 5. Überschrift (Header-Zeile) */
@@ -152,7 +153,7 @@ nav a:hover {
 
   /* Glass-Container: volle Breite minus Body-Padding, kompakter */
   .glass-container {
-    width: calc(100% - 2rem);
+    width: 100%; /*width: calc(100% - 2rem);*/
     max-width: none;
     padding: 1rem;
     height: 85vh;
