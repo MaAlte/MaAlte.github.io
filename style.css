@@ -190,7 +190,7 @@ nav a:hover {
     width: calc(100% - 2rem);
     max-width: none;
     padding: 1rem;
-    height: 85vh;
+    height: 80vh;
     gap: 0.5rem;
   }
 
