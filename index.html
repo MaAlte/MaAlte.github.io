@@ -12,9 +12,17 @@
 <body>
   <div class="glass-container">
     <h1>Willkommen auf meiner Seite</h1>
-    <div class="news">
-      <strong>News:</strong> Dieses Projekt ist frisch gestartet – mehr Inhalte folgen bald!
+
+    <!-- START dynamische News-Sektion -->
+    <div class="news-container">
+      <div class="arrow" id="prev-news">&#10094;</div>
+      <div class="news-content" id="news-content">
+        <!-- News wird hier via JavaScript eingefügt -->
+      </div>
+      <div class="arrow" id="next-news">&#10095;</div>
     </div>
+    <!-- END dynamische News-Sektion -->
+
     <nav>
       <a href="index.html">Home</a>
       <a href="services.html">Services</a>
@@ -22,5 +30,39 @@
       <a href="impressum.html">Impressum</a>
     </nav>
   </div>
+
+  <script>
+    // 1. Deine News-Liste – hier kannst du einfach neue Einträge hinzufügen
+    const newsList = [
+      { text: "Projekt gestartet – mehr Inhalte folgen bald!", link: "#" },
+      { text: "BTC-Watcher jetzt mit Alias-Funktion", link: "https://example.com/alias" },
+      { text: "Telegram-Benachrichtigungen live", link: "https://example.com/telegram" }
+    ];
+
+    // 2. Aktuellen Index und DOM-Elemente holen
+    let current = 0;
+    const contentEl = document.getElementById("news-content");
+    const prevBtn   = document.getElementById("prev-news");
+    const nextBtn   = document.getElementById("next-news");
+
+    // 3. News rendern
+    function renderNews() {
+      const item = newsList[current];
+      contentEl.innerHTML = `<a href="${item.link}" target="_blank">${item.text}</a>`;
+    }
+
+    // 4. Event-Listener für Pfeile
+    prevBtn.addEventListener("click", () => {
+      current = (current - 1 + newsList.length) % newsList.length;
+      renderNews();
+    });
+    nextBtn.addEventListener("click", () => {
+      current = (current + 1) % newsList.length;
+      renderNews();
+    });
+
+    // 5. Initiales Rendering beim Laden
+    renderNews();
+  </script>
 </body>
 </html>
