@@ -6,33 +6,68 @@
   padding: 0;
   box-sizing: border-box;
 }
-html, body {
+
+/* 2. HTML & Body Grundhöhe für Prozent-Angaben */
+html,
+body {
   height: 100%;
 }
-/* 2. Body & Hintergrundbild */
+
+/* 3. Body & Hintergrundbild */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: clamp(16px, 2vw, 18px);
-  min-height: 100vh;
-  padding: 2rem;
   background-color: #0f0f0f;
   background-image: url('img/BlackHoleBTC-DOLLAR.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  display: block; /*display: flex;*/
-  /*align-items: center;*/
-  /*justify-content: center;*/
   color: #fff;
+
+  /* Platz für Top-Bar (10vh) und Footer (~2.5rem) */
+  padding-top: 10vh;
+  padding-bottom: 2.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  /* Verhindere unerwünschtes horizontales Scrollen */
+  overflow-x: hidden;
 }
 
-/* 3. CSS-Variablen für Header- und Nav-Höhe */
+/* 4. CSS-Variablen für Header- und Nav-Höhe */
 :root {
   --header-h: 4rem;
   --nav-h:    3.5rem;
 }
 
-/* 4. Glass-Container als drei-Zeilen-Grid */
+/* 5. Top-Bar mit Logo & Titel */
+header.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+header.top-bar .logo {
+  height: 80%;
+  max-height: 4rem;
+}
+
+header.top-bar .site-title {
+  flex: 1;
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  color: #fff;
+  margin-left: 1rem;
+}
+
+/* 6. Glass-Container als Drei-Zeilen-Grid */
 .glass-container {
   display: grid;
   grid-template-rows: var(--header-h) 1fr var(--nav-h);
@@ -40,6 +75,7 @@ body {
   height: 80vh;
   max-width: 600px;
   width: 100%;
+  margin: 0 auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -47,10 +83,9 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  margin: 0 auto;
 }
 
-/* 5. Überschrift (Header-Zeile) */
+/* 7. Internes Header-Row (H1) */
 .glass-container > h1 {
   margin: 0;
   text-align: center;
@@ -58,7 +93,7 @@ body {
   font-size: 1.5rem;
 }
 
-/* 6. Mittlerer Bereich: News-Container & Content */
+/* 8. Mittlerer Bereich (News-Slider & Content) */
 .news-container,
 .content {
   overflow-y: auto;
@@ -73,7 +108,7 @@ body {
   margin: 0;
 }
 
-/* 7. Pfeil-Buttons im News-Slider */
+/* 9. Pfeil-Buttons im News-Slider */
 .arrow {
   cursor: pointer;
   font-size: 1.5rem;
@@ -87,7 +122,7 @@ body {
   color: #61dafb;
 }
 
-/* 8. News-Inhalt mit Fade-Effekt */
+/* 10. News-Inhalt mit Fade-Effekt */
 .news-content {
   flex: 1;
   max-width: 100%;
@@ -108,7 +143,7 @@ body {
   text-decoration: underline;
 }
 
-/* 9. Navigation (Footer-Zeile) */
+/* 11. Navigation im Footer-Row */
 nav {
   display: flex;
   justify-content: center;
@@ -130,7 +165,7 @@ nav a:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* 10. Orientation-Based Scaling für Hintergrundbild */
+/* 12. Orientation-Based Scaling für Hintergrundbild */
 @media (orientation: portrait) {
   body {
     background-size: auto 100%;
@@ -143,17 +178,16 @@ nav a:hover {
   }
 }
 
-/* 11. Mobile-Optimierungen */
+/* 13. Mobile-Optimierungen */
 @media (max-width: 600px) {
-  /* Body: keine horizontale Scrollbar */
+  /* Body: kompaktere Polsterung */
   body {
-    padding: 1rem;
-    overflow-x: hidden;
+    padding: 1rem 1rem 2.5rem;
   }
 
   /* Glass-Container: volle Breite minus Body-Padding, kompakter */
   .glass-container {
-    width: 100%; /*width: calc(100% - 2rem);*/
+    width: calc(100% - 2rem);
     max-width: none;
     padding: 1rem;
     height: 85vh;
@@ -164,7 +198,6 @@ nav a:hover {
   .glass-container > h1 {
     font-size: 1.4rem;
     line-height: 1.6rem;
-    padding: 0;
   }
 
   /* Content- & News-Wrapper: Zeilenumbruch bei langen Wörtern */
@@ -172,11 +205,10 @@ nav a:hover {
   .content {
     overflow-wrap: break-word;
     word-break: break-word;
-    min-width: 0;
     padding: 0.75rem;
   }
 
-  /* News-Slider: Abstand und max-width */
+  /* News-Slider-Abstand */
   .news-container {
     gap: 0.5rem;
   }
@@ -199,9 +231,23 @@ nav a:hover {
     padding: 0.5rem 0;
   }
 
-  /* Formularelemente */
+  /* Formular-Elemente */
   textarea,
   button {
     font-size: 1rem;
   }
+}
+
+/* 14. Footer mit Last-Modified-Zeile */
+footer#last-modified {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: #aaa;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 0;
+  z-index: 1000;
 }

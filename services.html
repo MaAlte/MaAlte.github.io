@@ -12,6 +12,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Top-Bar mit Logo und Site-Title -->
+  <header class="top-bar">
+    <img src="img/logo.png" alt="Logo" class="logo">
+    <div class="site-title">MaAlte81</div>
+  </header>
+
+
+  <!-- Glass-Container als Drei-Zeilen-Grid -->
   <div class="glass-container">
     <h1>Unsere Services</h1>
     <div class="news-container content">
@@ -25,5 +33,18 @@
       <a href="impressum.html">Impressum</a>
     </nav>
   </div>
+
+  <!-- Footer mit Last-Modified-Anzeige -->
+  <footer id="last-modified"></footer>
+
+  <script>
+    // Letzte Änderung in den Footer schreiben
+    document.getElementById('last-modified').textContent =
+      'Letzte Änderung: ' + document.lastModified;
+  </script>
+</body>
+</html>
+
+
 </body>
 </html>
