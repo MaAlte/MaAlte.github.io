@@ -69,6 +69,7 @@ header.top-bar .site-title {
   font-size: clamp(1.5rem, 4vw, 3rem);
   color: #fff;
   margin-left: 1rem;
+  font-family: 'Allerta Stencil', sans-serif;
 }
 
 /* 6. Glass-Container als Drei-Zeilen-Grid */
