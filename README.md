@@ -1,1 +1,1 @@
-https://maalte.github.io/index.html
+https://maalte.github.io
