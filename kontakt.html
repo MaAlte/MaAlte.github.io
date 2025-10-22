@@ -18,7 +18,7 @@
     <h1>Kontakt</h1>
 
     <div class="content">
-      <p>Du möchtest mich erreichen? Schreib mir gerne über <a href="mailto:kontakt@maalte.github.io">kontakt@maalte.github.io</a> oder sende mir Sats via Lightning.</p>
+      <p>Du möchtest mich erreichen? Schreib mir gerne über <a href="mailto:maalte@icloud.com">maalte@icloud.com</a> oder sende mir Sats via Lightning.</p>
     </div>
 
     <nav>
@@ -29,9 +29,11 @@
     </nav>
 
     <div class="page-transition" id="page-transition"></div>
+    
+    <footer id="last-modified"></footer>
   </div>
 
-  <footer id="last-modified"></footer>
+ 
 
   <!-- Seitenstart-Animation: in jede Seite -->
   <script>
@@ -63,6 +65,14 @@
   window.addEventListener('DOMContentLoaded', handlePageEnter);
   window.addEventListener('pageshow', handlePageEnter);
   </script>
+
+
+  <!-- 📅 Letzte Änderung anzeigen -->
+  <script>
+    document.getElementById('last-modified').textContent =
+      'Letzte Änderung: ' + document.lastModified;
+  </script>
+
 
   <!-- 🧭 Robust: Navigation + Rotation + Overlay mit Repaint + transitionend + Fallback -->
   <script>

@@ -83,6 +83,7 @@ header.top-bar .site-title {
   width: 100%;
   margin: 0 auto;
   padding: 2rem;
+  padding-bottom: calc(2.4rem + 0.5rem); /*HIER kann wieder weg wenns nicht hilft*/
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
@@ -97,6 +98,7 @@ header.top-bar .site-title {
   text-align: center;
   line-height: var(--header-h);
   font-size: 1.5rem;
+  font-family: 'Allerta Stencil', sans-serif;
 }
 
 /* 8. Mittlerer Bereich (News-Slider & Content) */
@@ -249,12 +251,12 @@ nav a:hover {
 
 /* 14. Footer mit Last-Modified-Zeile */
 footer#last-modified {
-  position: fixed;
+  position: bottom;
   bottom: 0;
   left: 0;
   width: 100%;
   text-align: center;
-  font-size: clamp(0.8rem, 2vw, 1rem);
+  font-size: clamp(0.4rem, 2vw, 0.6rem);
   color: #aaa;
   background: rgba(0, 0, 0, 0.5);
   padding: 0.5rem 0;
@@ -342,4 +344,75 @@ body {
     transform: rotateY(0deg);
     opacity: 1;
   }
+}
+
+
+/*---------------*/
+:root {
+  --topbar-height: 56px; /* anpassen falls nötig */
+  --nav-height: 3.5rem;  /* anpassen */
+  --gap: 0.5rem;
+}
+
+/* Container als Grid: header / scroll-area / footer */
+.glass-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--gap);
+  position: relative;
+  box-sizing: border-box;
+  width: min(100%, 760px);
+  margin: 0 auto;
+  height: calc(100dvh - var(--topbar-height)); /* dynamische Höhe, safe für mobile */
+  padding: 1rem;
+  overflow: hidden; /* verhindert, dass whole-page scrollt */
+}
+
+/* Überschrift / Top-Element: normal im Flow */
+.glass-container > h1,
+.glass-container > h2 {
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+/* Scrollbarer Mittelbereich */
+.glass-container > .content {
+  display: block;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 0.5rem; /* Platz für Scrollbar */
+  /* Optional: Begrenze Innenabstand, damit nav nicht überlappt */
+  padding-bottom: 0.5rem;
+}
+
+/* Fußleiste / Navigation bleibt unten */
+.glass-container > nav {
+  height: var(--nav-height);
+  min-height: var(--nav-height);
+  align-self: end; /* sicherstellen, dass die Nav am Grid-Ende sitzt */
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgba(255,255,255,0.03); /* optional */
+  background: rgba(255,255,255,0.02); /* optional */
+  z-index: 10;
+  padding: 0 0.5rem;
+  margin-bottom: 0; /*HIER, kann wieder weg wenns nicht hilft*/
+}
+
+/* Vermeide, dass nav beim Scrollen mitgeht */
+.glass-container > .content:focus { outline: none; }
+
+/* Scrolls zu Beginn oben sichtbar (Fragment / Fokus) */
+#impressum-content h1, #impressum-content h2 {
+  scroll-margin-top: calc(var(--topbar-height) + 0.5rem);
+}
+
+/* Mobile-Fallbacks: falls browser kein 100dvh unterstützt */
+@supports (height: 100dvh) {
+  .glass-container { height: calc(100dvh - var(--topbar-height)); }
+}
+@media (max-width: 600px) {
+  :root { --nav-height: 3.75rem; }
 }

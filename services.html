@@ -29,9 +29,9 @@
     </nav>
 
     <div class="page-transition" id="page-transition"></div>
+    
+    <footer id="last-modified"></footer>
   </div>
-
-  <footer id="last-modified"></footer>
 
   <!-- Seitenstart-Animation: in jede Seite -->
   <script>
@@ -62,6 +62,13 @@
 
   window.addEventListener('DOMContentLoaded', handlePageEnter);
   window.addEventListener('pageshow', handlePageEnter);
+  </script>
+
+
+  <!-- 📅 Letzte Änderung anzeigen -->
+  <script>
+    document.getElementById('last-modified').textContent =
+      'Letzte Änderung: ' + document.lastModified;
   </script>
 
   <!-- 🧭 Robust: Navigation + Rotation + Overlay mit Repaint + transitionend + Fallback -->
