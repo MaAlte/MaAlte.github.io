@@ -19,9 +19,74 @@
   <div class="glass-container">
     <h1>Services</h1>
 
-    <div class="content">
+    <!-- <div class="content">
       <p>Hier findest du eine Übersicht meiner aktuellen Projekte, Tools und technischen Services. Inhalte folgen bald.</p>
-    </div>
+    </div> -->
+
+    <div class="content">
+      <h1>BTC Ticker</h1> <br>
+
+      <h2>BLOCKCLOCK™ Live</h2>
+      <div id="moscowTime">Moscow Time: ...</div>
+      <div id="btcPrice">BTC Preis: ...</div>
+      <div id="blockHeight">Blockhöhe: ...</div>
+      <div id="lastUpdated">Letzte Aktualisierung: ...</div> <br>
+      <div id="Donate"><p>Spenden via Lightning: hiddenpaper53@getalby.com</p></div>
+     </div>
+
+      <script>
+        let secondsSinceUpdate = 0;
+        let updateInterval = 10000; // 10 Sekunden
+
+        async function getBTCPrice() {
+          try {
+            const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
+            const data = await res.json();
+            return parseFloat(data.bitcoin.usd);
+          } catch (e) {
+            return null;
+          }
+        }
+
+        async function getBlockHeight() {
+          try {
+            const res = await fetch("https://mempool.space/api/blocks/tip/height");
+            const height = await res.text();
+            return height;
+          } catch (e) {
+            return "Offline";
+          }
+        }
+
+        function calculateSatsPerDollar(btcPrice) {
+          const sats = 100000000 / btcPrice;
+          return Math.floor(sats).toLocaleString("de-DE");
+        }
+
+        async function updateWidget() {
+          const btcPrice = await getBTCPrice();
+          const blockHeight = await getBlockHeight();
+          const satsPerDollar = btcPrice ? calculateSatsPerDollar(btcPrice) : "Offline";
+
+          document.getElementById("moscowTime").textContent = "Moscow Time: " + satsPerDollar + " Sats/$";
+          document.getElementById("btcPrice").textContent = "BTC Preis: $" + (btcPrice ? btcPrice.toFixed(2) : "Offline");
+          document.getElementById("blockHeight").textContent = "Blockhöhe: " + blockHeight;
+
+          secondsSinceUpdate = 0;
+          document.getElementById("lastUpdated").textContent = "Letzte Aktualisierung: vor 0 Sekunden";
+        }
+
+        setInterval(updateWidget, updateInterval);
+
+        setInterval(() => {
+          secondsSinceUpdate++;
+          document.getElementById("lastUpdated").textContent = "Letzte Aktualisierung: vor " + secondsSinceUpdate + " Sekunden";
+        }, 1000);
+
+        updateWidget();
+      </script>
+    <div class="content">
+      
 
     <nav>
       <a href="index.html" data-direction="left">Home</a>
