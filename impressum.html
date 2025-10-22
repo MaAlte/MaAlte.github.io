@@ -1,50 +1,170 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Impressum</title>
-  <link rel="icon" href="/BTClackholefavicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="/BTClackholefavicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#1c1c1c">
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap"
-    rel="stylesheet"
-  />
   <link rel="stylesheet" href="style.css" />
-
 </head>
 <body>
-  <!-- Top-Bar mit Logo und Site-Title -->
+
+  <!-- 🧱 Top-Bar mit Logo und Titel -->
   <header class="top-bar">
-    <img src="img/BlackHoleBTC-DOLLAR.jpg" alt="Logo" class="logo">
+    <img src="img/BlackHoleBTC-DOLLAR.jpg" alt="Logo" class="logo" />
     <div class="site-title">MaAlte81</div>
   </header>
 
-
-  <!-- Glass-Container als Drei-Zeilen-Grid -->
+  <!-- 🧊 Hauptcontainer mit Inhalt und Navigation -->
   <div class="glass-container">
     <h1>Impressum</h1>
-    <div class="news-container content">
-      <p>Diese Seite dient als Demo und enthält keine echten personenbezogenen Daten.</p>
+
+    <div class="content">
+      <p>Diese Website ist ein persönliches Projekt von MaAlte81. Alle Inhalte dienen ausschließlich der Information. Keine Gewähr für Richtigkeit oder Vollständigkeit.</p>
     </div>
-    
+
     <nav>
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="kontakt.html">Kontakt</a>
-      <a href="impressum.html">Impressum</a>
+      <a href="index.html" data-direction="left">Home</a>
+      <a href="services.html" data-direction="left">Services</a>
+      <a href="kontakt.html" data-direction="left">Kontakt</a>
+      <a href="impressum.html" data-direction="left">Impressum</a>
     </nav>
+
+    <!-- 🔄 Seitenwechsel-Overlay -->
+    <div class="page-transition" id="page-transition"></div>
   </div>
-  <!-- Footer mit Last-Modified-Anzeige -->
+
+  <!-- 📅 Footer mit Änderungsdatum -->
   <footer id="last-modified"></footer>
 
+  <!-- Seitenstart-Animation: in jede Seite -->
   <script>
-    // Letzte Änderung in den Footer schreiben
+  function handlePageEnter() {
+    const overlay = document.getElementById('page-transition');
+    const container = document.querySelector('.glass-container');
+    const direction = sessionStorage.getItem('transitionDirection');
+
+    if (sessionStorage.getItem('transitioning') === 'true') {
+      // Overlay ausblenden (falls noch aktiv)
+      overlay?.classList.remove('active');
+
+      // Setze passende enter-Klasse abhängig von Richtung
+      if (direction === 'left') {
+        container?.classList.add('page-enter-left');
+      } else {
+        container?.classList.add('page-enter-right');
+      }
+
+      // Entferne rotate-Klassen erst nach der enter-Animation
+      setTimeout(() => {
+        container?.classList.remove('rotate-left', 'rotate-right');
+        sessionStorage.removeItem('transitioning');
+        sessionStorage.removeItem('transitionDirection');
+      }, 700); // passt zu deinen CSS-Durations
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', handlePageEnter);
+  window.addEventListener('pageshow', handlePageEnter);
+  </script>
+
+  <!-- 📅 Letzte Änderung anzeigen -->
+  <script>
     document.getElementById('last-modified').textContent =
       'Letzte Änderung: ' + document.lastModified;
   </script>
+
+
+  <!-- 🧭 Robust: Navigation + Rotation + Overlay mit Repaint + transitionend + Fallback -->
+  <script>
+  (function () {
+    const container = document.querySelector('.glass-container');
+    const navLinks = document.querySelectorAll('nav a');
+    const transitionOverlay = document.getElementById('page-transition');
+
+    if (!container || !transitionOverlay || navLinks.length === 0) return;
+
+    let navigating = false; // schützt vor Mehrfachauslösung
+
+    // Utility: force reflow
+    function forceReflow(el) {
+      void el.offsetWidth;
+    }
+
+    // Start transition sequence und navigiere, wenn Overlay-Transition beendet oder Fallback läuft
+    function startTransitionAndNavigate(href, direction) {
+      if (navigating) return;
+      navigating = true;
+
+      const rotateClass = `rotate-${direction}`;
+
+      // 1) Entferne vorherige Klassen (sicherstellen, dass Neu-Setzen wirkt)
+      container.classList.remove('rotate-left', 'rotate-right', 'page-enter-left', 'page-enter-right', 'page-enter');
+      transitionOverlay.classList.remove('active');
+
+      // 2) Erzwinge Reflow, damit Entfernen gerendert wird
+      forceReflow(container);
+      forceReflow(transitionOverlay);
+
+      // 3) Jetzt erst Klassen setzen, Overlay aktivieren
+      container.classList.add(rotateClass);
+      transitionOverlay.classList.add('active');
+
+      // 4) Markieren und Richtung speichern für die eingehende Seite
+      sessionStorage.setItem('transitioning', 'true');
+      sessionStorage.setItem('transitionDirection', direction);
+
+      // 5) Einmaliger transitionend-Handler auf dem Overlay
+      const onEnd = (ev) => {
+        // optional: prüfe propertyName wenn du mehrere Transitionen hast
+        // if (ev.propertyName !== 'opacity' && ev.propertyName !== 'transform') return;
+        cleanupAndNavigate();
+      };
+
+      // Fallback nach maximal 1s (falls transitionend nicht feuert)
+      const fallback = setTimeout(cleanupAndNavigate, 1000);
+
+      function cleanupAndNavigate() {
+        transitionOverlay.removeEventListener('transitionend', onEnd);
+        clearTimeout(fallback);
+        // kleine Verzögerung vor dem eigentlichen Location-Wechsel, damit der browser final rendern kann
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            window.location.href = href;
+          }, 20);
+        });
+      }
+
+      transitionOverlay.addEventListener('transitionend', onEnd, { once: true });
+
+      // Safety: falls overlay hat keine transition (dev-Fehler), trigger fallback sofort
+      // (keine weitere Aktion erforderlich hier)
+    }
+
+    // Attach handler an alle Links
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        // interne anchor- oder externe link-behandlung: nur eigene htmls
+        const href = link.getAttribute('href');
+        if (!href) return;
+        // Wenn Link auf dieselbe Seite zeigt, verhindere unnötigen reload
+        if (href === location.pathname.split('/').pop() || href === window.location.pathname) {
+          // erlauben normalem Verhalten (kein Seitenwechsel) oder einfach nichts tun
+          // wir verhindern reload, damit page-enter/exit nicht stören
+          e.preventDefault();
+          return;
+        }
+
+        e.preventDefault();
+
+        // Richtungswert default 'right' — nutze data-direction wenn vorhanden
+        const direction = link.dataset.direction || 'right';
+
+        startTransitionAndNavigate(href, direction);
+      });
+    });
+
+  })();
+  </script>
+
 </body>
 </html>
